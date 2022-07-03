@@ -1,6 +1,10 @@
 name: GitHub Actions Demo
 on: 
   workflow_call:
+    inputs:
+      archetype:
+        required: true
+        type: string
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
