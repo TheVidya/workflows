@@ -10,4 +10,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Archetype is ${{inputs.archetype}}"
-      - run: echo "API key is ${{secrets.openai_api_key}}"
+      - run: echo "API key is ${{secrets.OPENAI_API_KEY}}"
