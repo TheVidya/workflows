@@ -1,2 +1,9 @@
 on:
   workflow_call:
+    inputs:
+      archetype:
+        required: true
+        type: string
+    secrets:
+      apiKey:
+        required: true
