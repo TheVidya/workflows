@@ -1,7 +1,4 @@
 on:
-  label:
-    types:
-      - created
   workflow_call:
     secrets: inherit
     inputs:
