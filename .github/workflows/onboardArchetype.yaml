@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 on:
   workflow_call:
+=======
+ workflow_call:
+>>>>>>> 627a0adeab16d2f7d176635d7a80d0083c35e442
     secrets: inherit
     inputs:
       archetype:
@@ -8,9 +12,10 @@ on:
     
     
     jobs:
-      reusable_workflow_job:
+      onboard_the_archetype:
         runs-on: ubuntu-latest
         steps:
           - run: echo "Executing on archetype: ${{ inputs.archetype }}"
             with:
-              archetype: ${{ inputs.archetype }}
+              username: ${{ inputs.archetype }}
+              token: ${{ secrets.envPAT }}
