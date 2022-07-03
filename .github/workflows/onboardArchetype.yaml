@@ -11,6 +11,5 @@ on:
       onboard_the_archetype:
         runs-on: ubuntu-latest
         steps:
-          - run: echo "Executing on archetype: ${{ inputs.archetype }}"
-            with:
-              username: ${{ inputs.archetype }}
+          - run: echo "Executing on archetype, no archetype supplied yet"
+            
