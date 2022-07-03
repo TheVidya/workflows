@@ -5,6 +5,9 @@ on:
       archetype:
         required: true
         type: string
+    secrets:
+      OPENAI_API_KEY:
+        required: true
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
