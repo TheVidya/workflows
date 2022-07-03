@@ -5,5 +5,14 @@ on:
         required: true
         type: string
     secrets:
-      apiKey:
+      openai_api_key:
         required: true
+
+    jobs:
+      reusable_workflow_job:
+        runs-on: ubuntu-latest
+        steps:
+          - run: echo "Executing on archetype: ${{ inputs.archetype }}"
+            with:
+              username: ${{ inputs.archetype }}
+              token: ${{ secrets.envPAT }}
