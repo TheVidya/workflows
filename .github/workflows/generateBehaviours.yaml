@@ -25,7 +25,7 @@ jobs:
       #Create a folder for the behaviours 
       - name: Make directory 
         run: |
-          mkdir -p ${{BEHAVIOUR_PATH}}
+          mkdir -p ${{env.BEHAVIOUR_PATH}}
         
       #Identify with Github so we can affect the repo
       - name: Identify
@@ -36,7 +36,7 @@ jobs:
       #Send request to openAI
       - name: Get OpenAI response
         run: |
-          cd ${{BEHAVIOUR_PATH}}
+          cd ${{env.BEHAVIOUR_PATH}}
           
           curl https://api.openai.com/v1/edits \
             -o ${{OPENAI_RESPONSE_FILENAME}} \
@@ -53,7 +53,7 @@ jobs:
       - name: Parse reply 
         shell: pwsh
         run: |
-          cd ${{BEHAVIOUR_PATH}}
+          cd ${{env.BEHAVIOUR_PATH}}
           $response = get-content ${{OPENAI_RESPONSE_FILENAME}} | convertfrom-json
           $choice = $response.choices[0].text
           #Remove empty lines
@@ -71,12 +71,10 @@ jobs:
       
       - name: Create individual behaviour files
         run: |
-          cd ${{BEHAVIOUR_PATH}}
+          cd ${{env.BEHAVIOUR_PATH}}
           Get-Content out.txt | ForEach-Object { Set-Content ($_ + ".txt") $_ } 
           #Send to Github
           git add .
           git commit -m "Behaviours check in"
           git push
         shell: pwsh
-
-
