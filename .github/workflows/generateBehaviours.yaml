@@ -44,7 +44,7 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.OPENAI_API_KEY }}" \
             -d '{
             "model": "text-davinci-edit-001",
-            "input": "Five things an ${{ input.archetype }} can do:\n1.",
+            "input": "Five things an ${{ inputs.archetype }} can do:\n1.",
             "instruction": "Fill in the list",
             "temperature": 0,
             "top_p": 1
