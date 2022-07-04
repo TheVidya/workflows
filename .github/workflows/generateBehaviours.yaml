@@ -1,0 +1,84 @@
+name: GenerateBehaviours
+on: 
+  workflow_call:
+    inputs:
+      behaviourPath:
+        required: false
+        type: string
+      archetype:
+        required: true
+        type: string
+    secrets:
+      OPENAI_API_KEY:
+        required: true
+jobs:
+  get-openai-traits:
+    runs-on: ubuntu-latest
+    steps:
+        name: Commit and push result
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BEHAVIOUR_PATH: behaviour
+          OPENAI_RESPONSE_FILENAME: response.json
+    
+    
+    - name: Checkout
+        uses: actions/checkout@v3
+
+      #Create a folder for the behaviours 
+      - name: Make directory 
+        run: |
+          mkdir -p ${{BEHAVIOUR_PATH}}
+        
+      #Identify with Github so we can affect the repo
+      - name: Identify
+        run: |
+          git config --global user.email "14256056+BestDigital22@users.noreply.github.com"
+          git config --global user.name "BestDigital22"
+        
+      #Send request to openAI
+      - name: Get OpenAI response
+        run: |
+          cd ${{BEHAVIOUR_PATH}}
+          
+          curl https://api.openai.com/v1/edits \
+            -o ${{OPENAI_RESPONSE_FILENAME}} \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.OPENAI_API_KEY }}" \
+            -d '{
+            "model": "text-davinci-edit-001",
+            "input": "Five things an ${{ input.archetype }} can do:\n1.",
+            "instruction": "Fill in the list",
+            "temperature": 0,
+            "top_p": 1
+          }'
+          
+      - name: Parse reply 
+        shell: pwsh
+        run: |
+          cd ${{BEHAVIOUR_PATH}}
+          $response = get-content ${{OPENAI_RESPONSE_FILENAME}} | convertfrom-json
+          $choice = $response.choices[0].text
+          #Remove empty lines
+          $lines = $choice.Split([Environment]::NewLine, [System.StringSplitOptions]::RemoveEmptyEntries)
+          
+          #Remove instruction line
+          $lines = $lines | select -skip 1
+          
+          #Remove numbering
+          $list = ForEach-Object { $lines.Substring(3) } 
+          
+          #Write to disk
+          #Set-Content $filename $list
+          Set-Content out.txt $list
+      
+      - name: Create individual behaviour files
+        run: |
+          cd ${{BEHAVIOUR_PATH}}
+          Get-Content out.txt | ForEach-Object { Set-Content ($_ + ".txt") $_ } 
+          #Send to Github
+          git add .
+          git commit -m "Behaviours check in"
+          git push
+        shell: pwsh
+        
