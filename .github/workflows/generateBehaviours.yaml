@@ -39,7 +39,7 @@ jobs:
           cd ${{env.BEHAVIOUR_PATH}}
           
           curl https://api.openai.com/v1/edits \
-            -o ${{OPENAI_RESPONSE_FILENAME}} \
+            -o ${{env.OPENAI_RESPONSE_FILENAME}} \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${{ secrets.OPENAI_API_KEY }}" \
             -d '{
@@ -54,7 +54,7 @@ jobs:
         shell: pwsh
         run: |
           cd ${{env.BEHAVIOUR_PATH}}
-          $response = get-content ${{OPENAI_RESPONSE_FILENAME}} | convertfrom-json
+          $response = get-content ${{env.OPENAI_RESPONSE_FILENAME}} | convertfrom-json
           $choice = $response.choices[0].text
           #Remove empty lines
           $lines = $choice.Split([Environment]::NewLine, [System.StringSplitOptions]::RemoveEmptyEntries)
