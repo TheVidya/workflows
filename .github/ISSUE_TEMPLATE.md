@@ -1,4 +1,5 @@
 ---
-title: Behaviour added
+title: Someone just pushed
+labels: bug, enhancement
 ---
-A new behaviour was created. Environment variables are pretty {{ env.ADJECTIVE }}, right?
+Someone just pushed, oh no! Here's who did it: {{ payload.sender.login }}.
