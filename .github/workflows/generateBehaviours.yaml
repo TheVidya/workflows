@@ -1,4 +1,10 @@
 name: GenerateBehaviours
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  BEHAVIOUR_PATH: behaviour
+  OPENAI_RESPONSE_FILENAME: response.json
+
 on: 
   workflow_call:
     inputs:
@@ -73,7 +79,4 @@ jobs:
           git push
         shell: pwsh
 
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BEHAVIOUR_PATH: behaviour
-          OPENAI_RESPONSE_FILENAME: response.json
+
