@@ -16,8 +16,8 @@ on:
         required: true
 jobs:
   get-openai-traits:
-    permissions:
-        issues: write
+    #permissions:
+    #    issues: write
     runs-on: ubuntu-latest
     steps:
 
@@ -73,7 +73,7 @@ jobs:
           $list | ForEach-Object { Set-Content ($_ + ".behaviour") $_ } 
           
           #Try and create a new issue for each beahviour generated?
-          $list | ForEach-Object { gh issue create -b $_ } 
+          #$list | ForEach-Object { gh issue create -b $_ } 
           
           #Send to Github
           git add .
