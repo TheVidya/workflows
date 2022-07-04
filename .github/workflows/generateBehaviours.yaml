@@ -12,14 +12,8 @@ jobs:
   get-openai-traits:
     runs-on: ubuntu-latest
     steps:
-        name: Commit and push result
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BEHAVIOUR_PATH: behaviour
-          OPENAI_RESPONSE_FILENAME: response.json
-    
-    
-    - name: Checkout
+
+      - name: Checkout
         uses: actions/checkout@v3
 
       #Create a folder for the behaviours 
@@ -78,4 +72,8 @@ jobs:
           git commit -m "Behaviours check in"
           git push
         shell: pwsh
-        
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BEHAVIOUR_PATH: behaviour
+          OPENAI_RESPONSE_FILENAME: response.json
