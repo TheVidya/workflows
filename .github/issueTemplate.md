@@ -1,4 +1,5 @@
 ---
-title: Some issue
+title: Someone just pushed
+labels: bug, enhancement
 ---
-via {{ payload.sender.login }}.
+Someone just pushed, oh no! Here's who did it: {{ payload.sender.login }}.
