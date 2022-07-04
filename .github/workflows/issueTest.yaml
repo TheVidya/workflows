@@ -1,4 +1,6 @@
-on: workflow_trigger
+on: 
+  workflow_dispatch:
+  
 name: Create an issue on trigger
 permissions:
   contents: read
