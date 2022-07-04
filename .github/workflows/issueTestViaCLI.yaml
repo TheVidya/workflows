@@ -5,7 +5,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   ADJECTIVE: great 
 
-name: Create an issue on trigger
+name: Create an issue via CLI
 permissions:
   contents: read
   issues: write 
