@@ -67,14 +67,10 @@ jobs:
           
           #Write to disk
           #Set-Content $filename $list
-          Set-Content out.txt $list
-      
-      - name: Create individual behaviour files
-        run: |
-          cd ${{env.BEHAVIOUR_PATH}}
-          Get-Content out.txt | ForEach-Object { Set-Content ($_ + ".txt") $_ } 
+          #Set-Content out.txt $list
+          $list | ForEach-Object { Set-Content ($_ + ".behaviour") $_ } 
+          
           #Send to Github
           git add .
           git commit -m "Behaviours check in"
           git push
-        shell: pwsh
