@@ -2,9 +2,6 @@ name: GenerateBehaviours
 on: 
   workflow_call:
     inputs:
-      behaviourPath:
-        required: false
-        type: string
       archetype:
         required: true
         type: string
