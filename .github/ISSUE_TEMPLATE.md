@@ -1,5 +1,4 @@
 ---
 title: Behaviour added
-labels: accepted, declined
 ---
-A new behaviour was created
+A new behaviour was created. Environment variables are pretty {{ env.ADJECTIVE }}, right?
