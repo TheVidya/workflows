@@ -1,6 +1,6 @@
 ---
 title: Someone just pushed
-assignees: JasonEtco, matchai
-labels: bug, enhancement
+assignees: @me
+labels: accepted, declined
 ---
-Someone just pushed, oh no! Here's who did it: {{ payload.sender.login }}.
+A new behaviour was created
