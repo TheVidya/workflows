@@ -1,0 +1,82 @@
+name: GenerateBehaviours
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  BEHAVIOUR_PATH: subbehaviours
+  OPENAI_RESPONSE_FILENAME: response.json
+  
+on: 
+  workflow_call:
+    inputs:
+      behaviour:
+        required: true
+        type: string
+      archetype:
+        required: true
+        type: string
+    secrets:
+      OPENAI_API_KEY:
+        required: true
+jobs:
+  get-openai-traits:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      #Create a folder for the behaviours 
+      - name: Make directory 
+        run: |
+          mkdir -p ${{env.BEHAVIOUR_PATH}}
+        
+      #Identify with Github so we can affect the repo
+      - name: Identify
+        run: |
+          git config --global user.email "14256056+BestDigital22@users.noreply.github.com"
+          git config --global user.name "BestDigital22"
+        
+      #Send request to openAI
+      - name: Get OpenAI response
+        run: |
+          cd ${{env.BEHAVIOUR_PATH}}
+          
+          curl https://api.openai.com/v1/completions \
+            -o ${{env.OPENAI_RESPONSE_FILENAME}} \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.OPENAI_API_KEY }}" \
+            -d '{
+            "model": "text-davinci-002",
+            "prompt": "Three abilities that might help a Merchant with "Add a product\n1."
+            "top_p": 1,
+            "frequency_penalty": 0,
+            "presence_penalty": 0
+          }'
+          
+      - name: Parse reply 
+        shell: pwsh
+        run: |
+          cd ${{env.BEHAVIOUR_PATH}}
+          $response = get-content ${{env.OPENAI_RESPONSE_FILENAME}} | convertfrom-json
+          $choice = $response.choices[0].text
+          #Remove empty lines
+          $lines = $choice.Split([Environment]::NewLine, [System.StringSplitOptions]::RemoveEmptyEntries)
+          
+          #Remove instruction line
+          $lines = $lines | select -skip 1
+          
+          #Remove numbering
+          $list = ForEach-Object { $lines.Substring(3) } 
+          
+          #Write to disk
+          #Set-Content $filename $list
+          #Set-Content out.txt $list
+          $list | ForEach-Object { Set-Content ($_ + ".subbehaviour") $_ } 
+          
+          #Try and create a new issue for each beahviour generated?
+          #$list | ForEach-Object { gh issue create -b $_ } 
+          
+          #Send to Github
+          git add .
+          git commit -m "SubBehaviours check in"
+          git push
