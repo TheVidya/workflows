@@ -16,8 +16,6 @@ on:
         required: true
 jobs:
   get-openai-traits:
-    #permissions:
-    #    issues: write
     runs-on: ubuntu-latest
     steps:
 
