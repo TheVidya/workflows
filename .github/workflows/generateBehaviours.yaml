@@ -4,10 +4,6 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   BEHAVIOUR_PATH: behaviour
   OPENAI_RESPONSE_FILENAME: response.json
-
-permissions:
-  contents: read
-  issues: write 
   
 on: 
   workflow_call:
